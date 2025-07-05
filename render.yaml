@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: btc-signal-bot
+    env: python
+    buildCommand: ""
+    startCommand: python main.py
+    envVars:
+      - key: TELEGRAM_TOKEN
+        value: 7632904089:AAEwvo1TV08iJntpWn_WK4qRh_6Aq9EruBI
+      - key: CHAT_ID
+        value: 888976753

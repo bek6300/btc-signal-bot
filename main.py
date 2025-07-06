@@ -27,4 +27,3 @@ def webhook():
     return {"status": "ok"}
 
 if __name__ == "__main__":
-    app.run( )

@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: btc-signal-bot
+    name: mysignal
     env: python
-    buildCommand: ""
-    startCommand: python main.py
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn main:app"
     envVars:
       - key: TELEGRAM_TOKEN
-        value: 7632904089:AAEwvo1TV08iJntpWn_WK4qRh_6Aq9EruBI
+        value: YOUR_BOT_TOKEN
       - key: CHAT_ID
-        value: 888976753
+        value: YOUR_CHAT_ID

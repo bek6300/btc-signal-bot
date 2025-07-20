@@ -1,32 +1,22 @@
 from flask import Flask, request
-import os
 import requests
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+BOT_TOKEN = "7632904089:AAEwvo1TV08iJntpWn_WK4qRh_6Aq9EruBI"
+CHAT_ID = "888976753"
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    data = request.json
-    signal = data.get("signal", "UNKNOWN")
-    ticker = data.get("ticker", "BTCUSDT")
-    price = data.get("price", "N/A")
-
-    text = f"""
-📢 Signal: {signal}
-🪙 Pair: {ticker}
-💰 Price: {price}
-📊 Setup: EMA20/50, RSI, Supertrend
-"""
-
-    requests.post(
-        f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage",
-        json={"chat_id": CHAT_ID, "text": text}
-    )
-    return {"status": "ok"}
-
-if __name__ == "__main__":
-    app.run()
-
+@app.route("/", methods=["POST"])
+def send_signal():
+    data = request.get_json()
+    message = data.get("message", "⚠️ No message received.")
+    
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": CHAT_ID,
+        "text": message,
+        "parse_mode": "HTML"
+    }
+    
+    response = requests.post(telegram_url, json=payload)
+    return ("✅ Sent", 200) if response.ok else (f"❌ Error: {response.text}", 400)
